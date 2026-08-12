@@ -1,14 +1,8 @@
 package internal
 
 import (
-	"context"
-	"fmt"
-	"os"
-
 	"github.com/lanxre/kyokusu-cli/internal/commands"
-	"github.com/lanxre/kyokusu-cli/internal/constants"
-	"github.com/lanxre/kyokusu-cli/internal/models"
-	"github.com/lanxre/kyokusu-cli/internal/utils"
+	"github.com/lanxre/kyokusu-cli/internal/handlers"
 )
 
 func NewRegistry() *commands.Registry {
@@ -17,13 +11,13 @@ func NewRegistry() *commands.Registry {
 	registry.RegisterGlobalOption(&commands.Definition{
 		Name:     "help",
 		Terminal: true,
-		Handler:  runHelp,
+		Handler:  handlers.RunHelp,
 	})
 
 	registry.RegisterGlobalOption(&commands.Definition{
 		Name:     "version",
 		Terminal: true,
-		Handler:  runVersion,
+		Handler:  handlers.RunVersion,
 	})
 
 	registry.RegisterCommand(&commands.Definition{
@@ -34,7 +28,7 @@ func NewRegistry() *commands.Registry {
 				Terminal: true,
 			},
 		},
-		Handler:  runDmp,
+		Handler:  handlers.RunDmp,
 	})
 
 	registry.RegisterCommand(&commands.Definition{
@@ -47,7 +41,7 @@ func NewRegistry() *commands.Registry {
 						Name: "rescan",
 					},
 				},
-				Handler: runWifi,
+				Handler: handlers.RunWifi,
 			},
 		},
 	})
@@ -55,57 +49,3 @@ func NewRegistry() *commands.Registry {
 	return registry
 }
 
-func runHelp(
-	ctx context.Context,
-	input models.Input,
-) error {
-	utils.PrintInit(os.Stdout, constants.RootMessage)
-	return nil
-}
-
-func runVersion(
-	ctx context.Context,
-	input models.Input,
-) error {
-	fmt.Printf(
-		"%s %s\n",
-		constants.ToolName,
-		constants.Version,
-	)
-
-	return nil
-}
-
-func runWifi(
-	ctx context.Context,
-	input models.Input,
-) error {
-	command := input.Command
-
-	for command.Child != nil {
-		command = command.Child
-	}
-
-	if command.Options == nil {
-		fmt.Println("No options")
-		return nil
-	}
-
-	for _, option := range command.Options {
-		fmt.Printf("%s=%s\n", option.Name, option.Value)
-	}
-
-	return nil
-}
-
-func runDmp(
-	ctx context.Context,
-	input models.Input,
-) error {
-	fmt.Println("DUMP DATABASE")
-	command := input.Command
-	for _, option := range command.Options {
-		fmt.Printf("%s=%s\n", option.Name, option.Value)
-	}
-	return nil
-}
