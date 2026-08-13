@@ -150,13 +150,15 @@ func getOutput(options []models.Option) (string, error) {
 	format := commands.FindOption("f", options)
 
 	path := constants.BaseOutput
-	if output != nil && strings.TrimSpace(output.Value) != "" {
-		path = strings.TrimSpace(output.Value)
+	pathOptValue := strings.TrimSpace(output.Value)
+	if output != nil && pathOptValue != "" {
+		path = pathOptValue
 	}
 
 	formatName := constants.BaseFormat
-	if format != nil && strings.TrimSpace(format.Value) != "" {
-		formatName = strings.TrimPrefix(strings.TrimSpace(format.Value), ".")
+	formatOptValue := strings.TrimSpace(format.Value)
+	if format != nil && formatOptValue != "" {
+		formatName = strings.TrimPrefix(formatOptValue, ".")
 	}
 
 	if ext := filepath.Ext(path); ext != "" {
