@@ -8,12 +8,11 @@ import (
 )
 
 
-
 func RunDmp(
 	ctx context.Context,
 	input models.Input,
 ) error {
-	fmt.Println("DUMP DATABASE")
+	fmt.Println("[DUMP DATABASE]")
 
 	command := input.Command
 
