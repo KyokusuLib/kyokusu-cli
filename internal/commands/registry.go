@@ -7,36 +7,23 @@ import (
 	"github.com/lanxre/kyokusu-cli/internal/models"
 )
 
-type Handler func(
-	ctx context.Context,
-	input models.Input,
-) error
-
-type Definition struct {
-	Name     string
-	Terminal bool
-	Handler  Handler
-	Children map[string]*Definition
-	Options  map[string]*Definition
-}
-
 type Registry struct {
-	commands      map[string]*Definition
-	globalOptions map[string]*Definition
+	commands      map[string]*models.Definition
+	globalOptions map[string]*models.Definition
 }
 
 func NewRegistry() *Registry {
 	return &Registry{
-		commands:      make(map[string]*Definition),
-		globalOptions: make(map[string]*Definition),
+		commands:      make(map[string]*models.Definition),
+		globalOptions: make(map[string]*models.Definition),
 	}
 }
 
-func (r *Registry) RegisterCommand(definition *Definition) {
+func (r *Registry) RegisterCommand(definition *models.Definition) {
 	r.commands[definition.Name] = definition
 }
 
-func (r *Registry) RegisterGlobalOption(definition *Definition) {
+func (r *Registry) RegisterGlobalOption(definition *models.Definition) {
 	r.globalOptions[definition.Name] = definition
 }
 
@@ -61,7 +48,7 @@ func (r *Registry) Resolve(input models.Input) error {
 
 func resolveCommand(
 	command *models.Command,
-	definition *Definition,
+	definition *models.Definition,
 ) error {
 	for _, option := range command.Options {
 		if _, ok := definition.Options[option.Name]; !ok {
@@ -118,7 +105,7 @@ func executeCommand(
 	ctx context.Context,
 	input models.Input,
 	command *models.Command,
-	definition *Definition,
+	definition *models.Definition,
 ) error {
 	if command.Child != nil {
 		child := definition.Children[command.Child.Name]
