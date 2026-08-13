@@ -4,8 +4,8 @@ import (
 	"context"
 	"os"
 
-	"github.com/lanxre/kyokusu-cli/internal/commands"
 	"github.com/lanxre/kyokusu-cli/internal/constants"
+	"github.com/lanxre/kyokusu-cli/internal/commands"
 	"github.com/lanxre/kyokusu-cli/internal/utils"
 )
 
@@ -17,7 +17,7 @@ func Run(ctx context.Context) error {
 	args := os.Args[1:]
 
 	if len(args) == 0 {
-		utils.PrintInit(os.Stdout, constants.RootMessage)
+		utils.PrintInit(os.Stdout, constants.RootMessage, globalOptions, globalCommands)
 		return nil
 	}
 
