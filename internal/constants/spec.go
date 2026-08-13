@@ -8,6 +8,19 @@ const (
 	Usage    = "kyokusu-cli"
 )
 
+type Dialect string
+
+const (
+	DialectSqlite Dialect = "sqlite"
+	DialectPostgres Dialect = "postgres"
+)
+
+
+const (
+	 BaseFormat = "sql"
+	 BaseOutput = "backup"
+)
+
 var RootMessage = models.Root{
 	Usage: Usage,
 	Short: "Kyokusu CLI",
