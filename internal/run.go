@@ -17,7 +17,7 @@ func Run(ctx context.Context) error {
 	args := os.Args[1:]
 
 	if len(args) == 0 {
-		utils.PrintInit(os.Stdout, constants.RootMessage, globalOptions, globalCommands)
+		utils.PrintInit(os.Stdout, constants.RootMessage, constants.GlobalOptions, constants.GlobalCommands)
 		return nil
 	}
 

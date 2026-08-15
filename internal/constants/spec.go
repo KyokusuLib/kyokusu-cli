@@ -27,3 +27,8 @@ var RootMessage = models.Root{
 	Long: `KyokusuCli is a command-line tool manage 'KyokusuLib'.
 It groups the project's operational commands under one entry point.`,
 }
+
+var (
+	GlobalOptions  []models.Definition
+	GlobalCommands []models.Definition
+)

@@ -1,29 +1,19 @@
 package internal
 
 import (
-	"context"
-	"os"
-
 	"github.com/lanxre/kyokusu-cli/internal/constants"
 	"github.com/lanxre/kyokusu-cli/internal/handlers"
 	"github.com/lanxre/kyokusu-cli/internal/models"
-	"github.com/lanxre/kyokusu-cli/internal/utils"
 )
 
-var (
-	globalOptions  []models.Definition
-	globalCommands []models.Definition
-)
 
 func init() {
-	globalOptions = []models.Definition{
+	constants.GlobalOptions = []models.Definition{
 		{
 			Name:     "help",
 			Short:    "Show help and exit",
 			Terminal: true,
-			Handler: func(ctx context.Context, in models.Input) error {
-				return printHelp()
-			},
+			Handler:  handlers.RunHelp,
 		},
 		{
 			Name:     "version",
@@ -33,7 +23,7 @@ func init() {
 		},
 	}
 
-	globalCommands = []models.Definition{
+	constants.GlobalCommands = []models.Definition{
 		{
 			Name:  "dmp",
 			Short: "Dump database",
@@ -112,9 +102,4 @@ func init() {
 			},
 		},
 	}
-}
-
-func printHelp() error {
-	utils.PrintInit(os.Stdout, constants.RootMessage, globalOptions, globalCommands)
-	return nil
 }
