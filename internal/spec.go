@@ -27,4 +27,10 @@ func init() {
 			WithOption("db", "Path to SQLite database file"),
 		),
 	)
+	
+	RegisterCommand("kill", "Kill running process",
+		WithHandler(handlers.RunKill),
+		WithOption("p", "Process port"),
+	)
+	
 }
